@@ -1,0 +1,11 @@
+{
+  "name": "mongoagenda",
+  "version": "1.0.0",
+  "description": "agenda created with node and mongo db",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Oliver Bravo",
+  "license": "ISC"
+}
