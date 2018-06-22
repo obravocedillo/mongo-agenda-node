@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 
-app.post('server/login', function (req, res) {
+app.post('/', function (req, res) {
   res.send('Hello World!');
 });
 
