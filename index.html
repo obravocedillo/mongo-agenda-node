@@ -24,7 +24,7 @@
         var pass = $('#pass')
         $('.loginButton').on('click', function(event) {
             if (nombreUsuario.val() != "" && pass.val() != "") {
-                $.post('/login',{user: nombreUsuario.val(), pass: pass.val()}, function(response) {
+                $.post('server/login',{user: nombreUsuario.val(), pass: pass.val()}, function(response) {
                     console.log(respoonse);
                     if (response == "Validado") {
                         window.location.href = window.location.href + "/main.html";
