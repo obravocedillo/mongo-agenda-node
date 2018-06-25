@@ -5,10 +5,11 @@ class EventManager {
         this.obtenerDataInicial()
         this.inicializarFormulario()
         this.guardarEvento()
+        this.cerrarSesion()
     }
 
     obtenerDataInicial() {
-        let url = this.urlBase + "/all"
+        let url = 'http://localhost:3000/all'
         $.get(url, (response) => {
             this.inicializarCalendario(response)
         })
@@ -16,7 +17,8 @@ class EventManager {
 
     eliminarEvento(evento) {
         let eventId = evento.id
-        $.post('/events/delete/'+eventId, {id: eventId}, (response) => {
+        let eventTitle = evento.title;
+        $.post('http://localhost:3000/delete', {id: eventId, title: eventTitle}, (response) => {
             alert(response)
         })
     }
@@ -38,14 +40,14 @@ class EventManager {
                 start = start + 'T' + start_hour
                 end = end + 'T' + end_hour
             }
-            let url = this.urlBase + "/new"
+            let url = 'http://localhost:3000/'
             if (title != "" && start != "") {
                 let ev = {
                     title: title,
                     start: start,
                     end: end
                 }
-                $.post(url, ev, (response) => {
+                $.post('http://localhost:3000/new', ev, (response) => {
                     alert(response)
                 })
                 $('.calendario').fullCalendar('renderEvent', ev)
@@ -99,7 +101,7 @@ class EventManager {
             },
             events: eventos,
             eventDragStart: (event,jsEvent) => {
-                $('.delete').find('img').attr('src', "img/trash-open.png");
+                $('.delete').find('img').attr('src', "img/delete.png");
                 $('.delete').css('background-color', '#a70f19')
             },
             eventDragStop: (event,jsEvent) => {
@@ -117,6 +119,13 @@ class EventManager {
                 }
             })
         }
+
+        cerrarSesion(){
+            $("#logout").click(function(){
+                window.location.href = "index.html"
+            })
+        }
+
     }
 
     const Manager = new EventManager()
