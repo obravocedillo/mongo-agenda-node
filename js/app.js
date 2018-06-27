@@ -6,6 +6,7 @@ class EventManager {
         this.inicializarFormulario()
         this.guardarEvento()
         this.cerrarSesion()
+
     }
 
     obtenerDataInicial() {
@@ -20,6 +21,7 @@ class EventManager {
         let eventTitle = evento.title;
         $.post('http://localhost:3000/delete', {id: eventId, title: eventTitle}, (response) => {
             alert(response)
+            $('.calendario').fullCalendar('removeEvents', evento.id);
         })
     }
 
@@ -28,7 +30,7 @@ class EventManager {
             ev.preventDefault()
             let nombre = $('#titulo').val(),
             start = $('#start_date').val(),
-            title = $('#titulo').val(),
+            title = $('#titulo ').val() + " " + start,
             end = '',
             start_hour = '',
             end_hour = '';
@@ -89,7 +91,7 @@ class EventManager {
                 center: 'title',
                 right: 'month,agendaWeek,basicDay'
             },
-            defaultDate: '2016-11-01',
+
             navLinks: true,
             editable: true,
             eventLimit: true,
@@ -98,6 +100,7 @@ class EventManager {
             timeFormat: 'H:mm',
             eventDrop: (event) => {
                 this.actualizarEvento(event)
+
             },
             events: eventos,
             eventDragStart: (event,jsEvent) => {
@@ -114,11 +117,36 @@ class EventManager {
                 if (jsEvent.pageX >= x1 && jsEvent.pageX<= x2 &&
                     jsEvent.pageY >= y1 && jsEvent.pageY <= y2) {
                         this.eliminarEvento(event)
-                        $('.calendario').fullCalendar('removeEvents', event.id);
+
                     }
                 }
             })
         }
+
+        actualizarEvento(event){
+
+            let id = event.id,
+                start = moment(event.start).format('YYYY-MM-DD HH:mm:ss'),
+                end = moment(event.end).format('YYYY-MM-DD HH:mm:ss'),
+                form_data = new FormData(),
+                start_date,
+                end_date,
+                start_hour,
+                end_hour
+
+            start_date = start.substr(0,10)
+            end_date = end.substr(0,10)
+            start_hour = start.substr(11,8)
+            end_hour = end.substr(11,8)
+
+
+            
+            $.post('http://localhost:3000/update', {id: id, startDate: start_date,startHour: start_hour, endDate:end_date, endHour:end_hour}, (response) => {
+                alert(response)
+
+            })
+        }
+
 
         cerrarSesion(){
             $("#logout").click(function(){

@@ -89,6 +89,36 @@ app.post('/delete', function(req, res){
 
     });
 
+    app.post('/update', function(req, res){
+        let eventId = req.body.id;
+        let eventTitle = req.body.title;
+        let eventStart = req.body.start;
+        let eventEnd = req.body.end;
+        let idActual = userId;
+
+        mongodb.MongoClient.connect(uri, function(err, client){
+            let eventId = req.body.id;
+            let eventStart = req.body.startDate;
+            let eventStartHour = req.body.startHour;
+            let eventEnd = req.body.endDate;
+            let eventEndHour = req.body.endHour;
+            let idActual = userId;
+            mongodb.MongoClient.connect(uri, function(err, client){
+                let db = client.db('mark2test');
+                let events = db.collection('events');
+                if(eventEnd == "Invalid da" || eventEndHour == "Invalid da"){
+                    events.update({'id':eventId},{$set:{start:eventStart, end: ""}})
+                }else{
+                    events.update({'id':eventId},{$set:{"start":eventStart+"T"+eventStartHour, "end":eventEnd+"T"+eventEndHour}})
+                }
+
+                res.send(eventEnd);
+
+            });
+
+        });
+
+    });
 
 
 

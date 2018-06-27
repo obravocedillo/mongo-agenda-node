@@ -1,1 +1,4 @@
 https://github.com/obravocedillo/mongo-agenda-node
+
+
+Se uso mlab para poder crear la base de datos mongo en linea se usaron dos bases de datos una para eventos y otra para usuarios.
